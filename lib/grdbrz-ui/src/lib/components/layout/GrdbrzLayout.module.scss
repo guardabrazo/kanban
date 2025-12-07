@@ -12,6 +12,11 @@
     &.fullScreen {
         height: 100vh;
     }
+
+    @media (max-width: 768px) {
+        // height: auto !important; // Removed to keep full screen
+        // overflow: visible !important; // Removed to keep internal scrolling
+    }
 }
 
 .header {
@@ -34,6 +39,12 @@
     flex-direction: row;
     overflow: hidden; // Contain scrolling to children
     position: relative;
+
+    @media (max-width: 768px) {
+        overflow-x: auto !important; // Allow horizontal scrolling
+        overflow-y: hidden !important; // Prevent vertical scroll on wrapper (main has it)
+        -webkit-overflow-scrolling: touch; // Smooth scroll on iOS
+    }
 }
 
 .sidebar {
@@ -57,4 +68,10 @@
     overflow-y: auto; // Main content scrolls independently
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 768px) {
+        flex: 0 0 100vw; // Force main to be full width, pushing it off screen if sidebar is there
+        width: 100vw;
+        overflow-y: auto;
+    }
 }

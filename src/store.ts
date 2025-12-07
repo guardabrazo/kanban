@@ -69,6 +69,7 @@ interface KanbanState {
     updateTask: (taskId: string, updates: Partial<Task>) => Promise<void>;
     renameColumn: (columnId: string, newTitle: string) => Promise<void>;
     moveTask: (taskId: string, newColumnId: string) => Promise<void>;
+    renameProject: (projectId: string, newTitle: string) => Promise<void>;
     clearColumnTasks: (columnId: string) => Promise<void>; // For "Trash" functionality
 }
 
@@ -220,6 +221,12 @@ export const useKanbanStore = create<KanbanState>((set, get) => ({
     moveTask: async (taskId, newColumnId) => {
         await updateDoc(doc(db, 'tasks', taskId), {
             columnId: newColumnId
+        });
+    },
+
+    renameProject: async (projectId, newTitle) => {
+        await updateDoc(doc(db, 'projects', projectId), {
+            title: newTitle
         });
     },
 

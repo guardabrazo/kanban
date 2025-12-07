@@ -47,7 +47,7 @@ export const AppShell: React.FC<AppShellProps> = ({
 
 
     const defaultFooter = footer ? (
-        <Box px="xl" style={{ height: '40px', display: 'flex', alignItems: 'center', width: '100%' }}>
+        <Box style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
             {footer}
         </Box>
     ) : (

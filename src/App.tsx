@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppShell, Stack, Text, Button, Input, Box, Panel } from 'grdbrz-ui';
+import { AppShell, Stack, Text, Button, Input, Box, Panel, ButtonGroup } from 'grdbrz-ui';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useKanbanStore } from './store';
@@ -7,6 +7,7 @@ import { Auth } from './Auth';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { ProjectBoard } from './ProjectBoard';
 import { PomodoroTimer } from './PomodoroTimer';
+import './App.css';
 
 const KanbanApp: React.FC = () => {
   const {
@@ -17,12 +18,15 @@ const KanbanApp: React.FC = () => {
     setCurrentProject,
     subscribeToProjects,
     addProject,
-    deleteProject
+    deleteProject,
+    renameProject
   } = useKanbanStore();
 
   const [newProjectTitle, setNewProjectTitle] = useState('');
   const [isAddingProject, setIsAddingProject] = useState(false);
-  const [deleteMenuProjectId, setDeleteMenuProjectId] = useState<string | null>(null);
+  const [menuProjectId, setMenuProjectId] = useState<string | null>(null);
+  const [renamingProjectId, setRenamingProjectId] = useState<string | null>(null);
+  const [renameProjectTitle, setRenameProjectTitle] = useState('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -31,9 +35,9 @@ const KanbanApp: React.FC = () => {
     return () => unsubscribe();
   }, [setUser]);
 
-  // Click outside to close delete menu
+  // Click outside to close menu
   useEffect(() => {
-    const handleClickOutside = () => setDeleteMenuProjectId(null);
+    const handleClickOutside = () => setMenuProjectId(null);
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
@@ -69,70 +73,114 @@ const KanbanApp: React.FC = () => {
         </Stack>
       }
       sidebar={
-        <Stack gap="md" style={{ height: '100%', padding: '24px' }}>
+        <Stack gap="md" className="app-sidebar" style={{ height: '100%' }}>
           <Panel header="Projects">
             <Stack gap="sm">
               <Stack gap="none">
                 {projects.map((project, index) => {
-                  const isFirst = index === 0;
                   const isLast = index === projects.length - 1;
-                  const borderRadius = projects.length === 1 ? '4px' :
-                    isFirst ? '4px 4px 0 0' :
-                      isLast ? '0 0 4px 4px' :
-                        '0';
+
+                  const isRenaming = renamingProjectId === project.id;
 
                   return (
-                    <div key={project.id} style={{ position: 'relative', width: '100%' }}>
-                      <Button
-                        variant={currentProjectId === project.id ? 'primary' : 'subtle'}
-                        onClick={() => setCurrentProject(project.id)}
-                        active={currentProjectId === project.id}
-                        style={{
-                          justifyContent: 'space-between',
-                          textAlign: 'left',
-                          display: 'flex',
-                          alignItems: 'center',
-                          width: '100%',
-                          borderRadius: borderRadius,
-                          borderBottom: !isLast ? 'none' : undefined // Prevent double borders if they have them
-                        }}
-                      >
-                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
-                          {project.title}
-                        </span>
-                        {currentProjectId === project.id && (
-                          <span
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setDeleteMenuProjectId(deleteMenuProjectId === project.id ? null : project.id);
-                            }}
-                            style={{ marginLeft: '8px', opacity: 0.7, padding: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-                            title="Delete Project"
-                          >
-                            ×
-                          </span>
-                        )}
-                      </Button>
-                      {deleteMenuProjectId === project.id && (
-                        <Box style={{
-                          position: 'absolute',
-                          top: '100%',
-                          right: 0,
-                          zIndex: 100,
-                          minWidth: '120px'
-                        }}>
+                    <div key={project.id} style={{ width: '100%' }}>
+                      {isRenaming ? (
+                        <form
+                          onSubmit={async (e) => {
+                            e.preventDefault();
+                            if (renameProjectTitle.trim()) {
+                              await renameProject(project.id, renameProjectTitle);
+                              setRenamingProjectId(null);
+                            }
+                          }}
+                          style={{ width: '100%' }}
+                        >
+                          <Input
+                            value={renameProjectTitle}
+                            onChange={(e) => setRenameProjectTitle(e.target.value)}
+                            autoFocus
+                            onBlur={() => setRenamingProjectId(null)}
+                            style={{ height: '32px', width: '100%' }}
+                          />
+                        </form>
+                      ) : (
+                        <Stack direction="row" gap="none" style={{ width: '100%' }}>
                           <Button
-                            variant="subtle"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteProject(project.id);
-                              setDeleteMenuProjectId(null);
+                            variant={currentProjectId === project.id ? 'primary' : 'subtle'}
+                            onClick={() => setCurrentProject(project.id)}
+                            active={currentProjectId === project.id}
+                            style={{
+                              flex: 1,
+                              justifyContent: 'flex-start',
+                              textAlign: 'left',
+                              borderRadius: '0',
+                              borderBottom: !isLast ? 'none' : undefined,
+                              borderRight: currentProjectId === project.id ? 'none' : undefined
                             }}
-                            style={{ width: '100%', color: 'var(--color-error)', justifyContent: 'flex-start', background: 'var(--bg-panel)', border: '1px solid var(--border-subtle)' }}
                           >
-                            Confirm Delete
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {project.title}
+                            </span>
                           </Button>
-                        </Box>
+
+                          {currentProjectId === project.id && (
+                            <div style={{ position: 'relative' }}>
+                              <Button
+                                variant="primary"
+                                active={true}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setMenuProjectId(menuProjectId === project.id ? null : project.id);
+                                }}
+                                style={{
+                                  padding: '0 8px',
+                                  height: '100%',
+                                  borderRadius: '0',
+                                  borderBottom: !isLast ? 'none' : undefined,
+                                  borderLeft: 'none'
+                                }}
+                                title="Project Options"
+                              >
+                                ...
+                              </Button>
+                              {menuProjectId === project.id && (
+                                <Box style={{
+                                  position: 'absolute',
+                                  top: '100%',
+                                  right: 0,
+                                  zIndex: 100,
+                                  minWidth: '120px'
+                                }}>
+                                  <ButtonGroup orientation="vertical" style={{ width: '100%' }}>
+                                    <Button
+                                      variant="subtle"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setRenamingProjectId(project.id);
+                                        setRenameProjectTitle(project.title);
+                                        setMenuProjectId(null);
+                                      }}
+                                      style={{ width: '100%', justifyContent: 'flex-start', background: 'var(--bg-panel)', border: '1px solid var(--border-subtle)' }}
+                                    >
+                                      Rename
+                                    </Button>
+                                    <Button
+                                      variant="subtle"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteProject(project.id);
+                                        setMenuProjectId(null);
+                                      }}
+                                      style={{ width: '100%', justifyContent: 'flex-start', color: 'var(--color-error)', background: 'var(--bg-panel)', border: '1px solid var(--border-subtle)', borderTop: 'none' }}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </ButtonGroup>
+                                </Box>
+                              )}
+                            </div>
+                          )}
+                        </Stack>
                       )}
                     </div>
                   );
@@ -168,8 +216,8 @@ const KanbanApp: React.FC = () => {
         </Stack>
       }
       footer={
-        <Stack direction="row" justify="center" align="center" style={{ width: '100%', padding: '0 24px', height: '40px' }}>
-          <Text size="xs" variant="muted">© {new Date().getFullYear()} GUARDABRAZO</Text>
+        <Stack direction="row" justify="center" align="center" style={{ width: '100%', padding: '0 16px', height: '24px' }}>
+          <Text style={{ fontSize: '10px', color: 'var(--text-muted)' }}>© {new Date().getFullYear()} GUARDABRAZO</Text>
         </Stack>
       }
     >
@@ -186,7 +234,7 @@ const KanbanApp: React.FC = () => {
           </Panel>
         )}
       </Stack>
-    </AppShell>
+    </AppShell >
   );
 };
 
