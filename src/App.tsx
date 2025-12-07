@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppShell, Stack, Heading, Text, Button, Input, Box, Panel } from 'grdbrz-ui';
+import { AppShell, Stack, Text, Button, Input, Box, Panel } from 'grdbrz-ui';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useKanbanStore } from './store';
@@ -72,7 +72,7 @@ const KanbanApp: React.FC = () => {
         <Stack gap="md" style={{ height: '100%', padding: '24px' }}>
           <Panel header="Projects">
             <Stack gap="sm">
-              <Stack gap={0}>
+              <Stack gap="none">
                 {projects.map((project, index) => {
                   const isFirst = index === 0;
                   const isLast = index === projects.length - 1;

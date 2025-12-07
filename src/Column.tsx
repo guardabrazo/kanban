@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, Stack, Heading, Button, Text, Input, Pill, ButtonGroup } from 'grdbrz-ui';
+import { Box, Stack, Heading, Button, Input, Pill, ButtonGroup } from 'grdbrz-ui';
 import { useKanbanStore, type Column as ColumnType, type Task as TaskType } from './store';
 import { TaskCard } from './TaskCard';
 import styles from './KanbanBoard.module.scss';
@@ -11,7 +11,6 @@ interface ColumnProps {
 
 export const Column: React.FC<ColumnProps> = ({ column, tasks }) => {
     const { deleteColumn, clearColumnTasks, moveTask, renameColumn } = useKanbanStore();
-    const isDoneColumn = column.title.toLowerCase() === 'done';
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isRenaming, setIsRenaming] = useState(false);
     const [renameTitle, setRenameTitle] = useState(column.title);
