@@ -34,7 +34,7 @@ export const AppShell: React.FC<AppShellProps> = ({
     defaultTheme = 'darkDefault'
 }) => {
     const defaultHeader = (
-        <Stack direction="row" justify="between" align="center" style={{ width: '100%', padding: '0 24px', height: '60px' }}>
+        <Stack direction="row" justify="between" align="center" style={{ width: '100%', padding: '0 24px', paddingTop: 'env(safe-area-inset-top)', height: 'calc(60px + env(safe-area-inset-top))' }}>
             <Heading as="h1" size="xl" style={{ letterSpacing: '4px' }}>{title}</Heading>
             {headerActions && (
                 <Stack direction="row" gap="md">
