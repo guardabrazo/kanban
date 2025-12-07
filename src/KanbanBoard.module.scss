@@ -1,0 +1,98 @@
+@use 'grdbrz-ui/dist/grdbrz-ui.css';
+
+.board {
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;
+    padding: 24px;
+}
+
+.columnsContainer {
+    height: 100%;
+    width: 100%;
+    // Ensure flex items can shrink below their content size if needed
+    min-width: 0;
+}
+
+.column {
+    flex: 1 1 0;
+    min-width: 220px;
+    max-width: 380px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+    border: 1px solid var(--border-subtle);
+}
+
+.addColumn {
+    flex: 1 1 0;
+    min-width: 220px;
+    max-width: 380px;
+}
+
+.minimalAddColumn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 100%;
+
+    button {
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+    }
+}
+
+.columnHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.columnContent {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.taskCard {
+    cursor: grab;
+    transition: border-color 0.2s;
+
+    &:hover {
+        border-color: var(--border-strong);
+    }
+}
+
+.addTaskButton {
+    justify-content: flex-start;
+    color: var(--text-secondary);
+    width: 100%;
+    border: none; // Make it look like a ghost button
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.moreButton {
+    padding: 4px;
+    height: auto;
+    border: none;
+    color: var(--text-secondary);
+}
