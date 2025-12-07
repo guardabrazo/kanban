@@ -19,7 +19,7 @@
 @media (max-width: 768px) {
     .app-header-inner {
         /* Fallback for mobile if env is 0, ensures clearance for notch */
-        padding-top: max(env(safe-area-inset-top), 60px) !important;
-        height: calc(60px + max(env(safe-area-inset-top), 60px)) !important;
+        padding-top: max(env(safe-area-inset-top), 48px) !important;
+        height: calc(60px + max(env(safe-area-inset-top), 48px)) !important;
     }
 }
