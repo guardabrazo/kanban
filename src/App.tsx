@@ -19,7 +19,8 @@ const KanbanApp: React.FC = () => {
     subscribeToProjects,
     addProject,
     deleteProject,
-    renameProject
+    renameProject,
+    reorderProject
   } = useKanbanStore();
 
   const [newProjectTitle, setNewProjectTitle] = useState('');
@@ -157,11 +158,35 @@ const KanbanApp: React.FC = () => {
                                       variant="subtle"
                                       onClick={(e) => {
                                         e.stopPropagation();
+                                        reorderProject(project.id, 'up');
+                                        setMenuProjectId(null);
+                                      }}
+                                      disabled={index === 0}
+                                      style={{ width: '100%', justifyContent: 'flex-start', background: 'var(--bg-panel)', border: '1px solid var(--border-subtle)' }}
+                                    >
+                                      Move Up
+                                    </Button>
+                                    <Button
+                                      variant="subtle"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        reorderProject(project.id, 'down');
+                                        setMenuProjectId(null);
+                                      }}
+                                      disabled={index === projects.length - 1}
+                                      style={{ width: '100%', justifyContent: 'flex-start', background: 'var(--bg-panel)', border: '1px solid var(--border-subtle)', borderTop: 'none' }}
+                                    >
+                                      Move Down
+                                    </Button>
+                                    <Button
+                                      variant="subtle"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
                                         setRenamingProjectId(project.id);
                                         setRenameProjectTitle(project.title);
                                         setMenuProjectId(null);
                                       }}
-                                      style={{ width: '100%', justifyContent: 'flex-start', background: 'var(--bg-panel)', border: '1px solid var(--border-subtle)' }}
+                                      style={{ width: '100%', justifyContent: 'flex-start', background: 'var(--bg-panel)', border: '1px solid var(--border-subtle)', borderTop: 'none' }}
                                     >
                                       Rename
                                     </Button>
@@ -217,7 +242,7 @@ const KanbanApp: React.FC = () => {
         </Stack>
       }
       footer={
-        <Stack direction="row" justify="center" align="center" style={{ width: '100%', padding: '0 16px', height: '24px' }}>
+        <Stack direction="row" justify="center" align="center" style={{ width: '100%', padding: '0 16px', height: '40px' }}>
           <Text style={{ fontSize: '10px', color: 'var(--text-muted)' }}>© {new Date().getFullYear()} GUARDABRAZO</Text>
         </Stack>
       }
