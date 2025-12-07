@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:lib": "cd lib/grdbrz-ui && npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build:lib && npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
