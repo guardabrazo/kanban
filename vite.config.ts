@@ -8,6 +8,7 @@ export default defineConfig({
   base: '/kanban/',
   resolve: {
     alias: {
+      'grdbrz-ui/dist/grdbrz-ui.css': path.resolve(__dirname, 'lib/grdbrz-ui/dist/grdbrz-ui.css'),
       'grdbrz-ui': path.resolve(__dirname, 'lib/grdbrz-ui/src/lib/index.ts')
     }
   }
