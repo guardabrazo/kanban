@@ -5,13 +5,21 @@
 
 .app-sidebar {
     height: 100%;
-    padding: 24px;
+    padding: 24px !important;
+}
+
+.app-header-inner {
+    width: 100%;
+    padding: 0 24px;
+    min-height: 60px;
+    padding-top: env(safe-area-inset-top);
+    height: calc(60px + env(safe-area-inset-top));
 }
 
 @media (max-width: 768px) {
-    .app-sidebar {
-        padding: 16px;
+    .app-header-inner {
+        /* Fallback for mobile if env is 0, ensures clearance for notch */
+        padding-top: max(env(safe-area-inset-top), 47px);
+        height: calc(60px + max(env(safe-area-inset-top), 47px));
     }
-}
-
 }
