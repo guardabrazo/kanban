@@ -1,0 +1,84 @@
+@use '../../styles/tokens' as *;
+
+.stack {
+    display: flex;
+
+    // Direction
+    &.column {
+        flex-direction: column;
+    }
+
+    &.row {
+        flex-direction: row;
+    }
+
+    // Gap
+    &.gap-none {
+        gap: 0;
+    }
+
+    &.gap-xs {
+        gap: var(--spacing-xs);
+    }
+
+    &.gap-sm {
+        gap: var(--spacing-sm);
+    }
+
+    &.gap-md {
+        gap: var(--spacing-md);
+    }
+
+    &.gap-lg {
+        gap: var(--spacing-lg);
+    }
+
+    &.gap-xl {
+        gap: var(--spacing-xl);
+    }
+
+    // Align
+    &.align-start {
+        align-items: flex-start;
+    }
+
+    &.align-center {
+        align-items: center;
+    }
+
+    &.align-end {
+        align-items: flex-end;
+    }
+
+    &.align-stretch {
+        align-items: stretch;
+    }
+
+    // Justify
+    &.justify-start {
+        justify-content: flex-start;
+    }
+
+    &.justify-center {
+        justify-content: center;
+    }
+
+    &.justify-end {
+        justify-content: flex-end;
+    }
+
+    &.justify-between {
+        justify-content: space-between;
+    }
+
+    &.justify-around {
+        justify-content: space-around;
+    }
+
+    // Grow
+    &.grow>* {
+        flex-grow: 1;
+        flex-basis: 0; // Ensure equal distribution regardless of content width
+        min-width: 0; // Allow shrinking below content size if needed
+    }
+}

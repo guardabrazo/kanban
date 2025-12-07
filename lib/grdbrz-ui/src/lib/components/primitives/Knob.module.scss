@@ -1,0 +1,84 @@
+@use '../../styles/tokens' as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    flex-shrink: 0;
+
+    &.disabled {
+        opacity: 0.4;
+        pointer-events: none;
+        filter: grayscale(100%);
+    }
+}
+
+.knob {
+    border-radius: 50%;
+    border: 1px solid var(--text-primary); // Changed to 1px
+    background: var(--bg-panel);
+    position: relative;
+    cursor: ns-resize;
+    transition: border-color 0.2s;
+
+    &:hover {
+        border-color: var(--accent);
+
+        .marker {
+            background: var(--accent);
+        }
+    }
+}
+
+.marker {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 1px; // Changed to 1px
+    height: 35%;
+    background: var(--text-primary);
+    transform: translateX(-50%);
+    transition: background 0.2s;
+}
+
+.label {
+    text-align: center;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    max-width: 100%; // Ensure it doesn't overflow container
+    width: min-content; // Try to match content but wrap if needed? No, this might be too narrow.
+    // Better: let it wrap if it exceeds a reasonable width, or match the knob width?
+    // If we want the knob to be the primary width determinant:
+    width: 100%;
+    word-wrap: break-word;
+}
+
+// Sizes - Apply width to container to ensure alignment
+.sm {
+    width: 48px; // Fixed container width
+
+    .knob {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.md {
+    width: 64px; // Fixed container width
+
+    .knob {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+.lg {
+    width: 80px; // Fixed container width
+
+    .knob {
+        width: 64px;
+        height: 64px;
+    }
+}

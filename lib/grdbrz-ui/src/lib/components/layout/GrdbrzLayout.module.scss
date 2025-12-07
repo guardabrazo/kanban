@@ -1,0 +1,60 @@
+@use '../../styles/tokens' as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; // Changed from 100vh to 100% to avoid nested scrollbars
+    min-height: 0; // Allow shrinking if needed
+    overflow: hidden;
+    background: var(--bg-app);
+
+    &.fullScreen {
+        height: 100vh;
+    }
+}
+
+.header {
+    flex-shrink: 0;
+    z-index: 10;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.footer {
+    flex-shrink: 0;
+    z-index: 10;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.contentWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden; // Contain scrolling to children
+    position: relative;
+}
+
+.sidebar {
+    flex-shrink: 0;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--bg-panel);
+
+    &.left {
+        border-right: 1px solid var(--border-subtle);
+    }
+
+    &.right {
+        border-left: 1px solid var(--border-subtle);
+    }
+}
+
+.main {
+    flex: 1;
+    position: relative;
+    overflow-y: auto; // Main content scrolls independently
+    display: flex;
+    flex-direction: column;
+}

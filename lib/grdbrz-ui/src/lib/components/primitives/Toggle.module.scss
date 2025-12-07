@@ -1,0 +1,87 @@
+@use '../../styles/tokens' as *;
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    gap: var(--spacing-sm);
+}
+
+.input {
+    display: none;
+}
+
+.toggle {
+    display: inline-block;
+    position: relative;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    border: 1px solid var(--border-subtle);
+
+    // SWITCH VARIANT (Sliding)
+    &.switch {
+        width: 28px;
+        height: 16px;
+        background: transparent; // Track background
+
+        // The sliding thumb
+        &::after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            width: 12px;
+            height: 12px;
+            background: var(--text-secondary); // Inactive thumb color
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        // Checked state
+        .input:checked+& {
+            background: transparent; // Track stays same or changes? keeping same for now
+            border-color: var(--accent);
+
+            &::after {
+                transform: translateX(12px); // Slide right (28 - 2 - 12 - 2 = 12px travel)
+                background: var(--accent); // Active thumb color
+            }
+        }
+
+        // Hover state
+        .input:hover+& {
+            border-color: var(--text-primary);
+
+            &::after {
+                background: var(--text-primary);
+            }
+        }
+
+        // Checked Hover
+        .input:checked:hover+& {
+            border-color: var(--accent);
+
+            &::after {
+                background: var(--accent);
+            }
+        }
+    }
+
+    // CHECKBOX VARIANT (Original)
+    &.checkbox {
+        width: 14px;
+        height: 14px;
+        background: transparent;
+
+        .input:checked+& {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .input:hover+& {
+            border-color: var(--accent);
+        }
+    }
+}

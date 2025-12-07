@@ -1,0 +1,57 @@
+@use '../../styles/tokens' as *;
+
+.buttonGroup {
+    display: inline-flex;
+
+    // Horizontal (default)
+    &:not(.vertical) {
+        flex-direction: row;
+
+        >button {
+            &:not(:first-child) {
+                margin-left: -1px;
+            }
+        }
+    }
+
+    // Vertical
+    &.vertical {
+        flex-direction: column;
+        width: 100%; // Usually want full width in vertical stacks
+
+        >button {
+            width: 100%; // Ensure buttons fill the container
+
+            &:not(:first-child) {
+                margin-top: -1px;
+            }
+        }
+    }
+
+    // Shared child styles
+    >button {
+
+        // Square corners for all middle buttons
+        &:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+
+        // Mute inactive buttons (Explicit colors instead of opacity to avoid overlap issues)
+        // Use data-active attribute to reliably target active state regardless of CSS module scoping
+        &:not(:hover):not(:active):not(:focus):not([data-active="true"]) {
+            color: var(--text-secondary);
+            border-color: var(--border-opaque); // Use opaque border to prevent overlap
+            background: transparent;
+            opacity: 1;
+        }
+
+        // Ensure active/hover states sit on top of neighbors
+        &:hover,
+        &:focus,
+        &:active,
+        &[data-active="true"] {
+            z-index: 1;
+            position: relative;
+        }
+    }
+}

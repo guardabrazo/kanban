@@ -1,0 +1,55 @@
+@use '../../styles/tokens' as *;
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--letter-spacing-wide);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    border-radius: 0;
+
+    // Default Size
+    height: 32px;
+    padding: 0 16px;
+
+    &:disabled {
+        opacity: 0.2;
+        cursor: not-allowed;
+    }
+
+    // Variants
+    &.primary {
+        border-color: var(--text-primary);
+
+        &:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        // Momentary Active (Click)
+        &:active:not(:disabled) {
+            background: var(--text-primary);
+            color: var(--bg-app);
+        }
+
+        // Toggle Active (State)
+        &.active {
+            background: var(--text-primary);
+            color: var(--bg-app);
+
+            &:hover:not(:disabled) {
+                background: var(--text-primary);
+                color: var(--bg-app);
+                opacity: 0.8;
+            }
+        }
+    }
+
+
+}

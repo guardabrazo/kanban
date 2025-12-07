@@ -1,0 +1,74 @@
+@use '../../styles/tokens' as *;
+
+.box {
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+// Padding
+@each $size in xs, sm, md, lg, xl {
+    .p-#{$size} {
+        padding: var(--spacing-#{$size});
+    }
+
+    .px-#{$size} {
+        padding-left: var(--spacing-#{$size});
+        padding-right: var(--spacing-#{$size});
+    }
+
+    .py-#{$size} {
+        padding-top: var(--spacing-#{$size});
+        padding-bottom: var(--spacing-#{$size});
+    }
+
+    .pt-#{$size} {
+        padding-top: var(--spacing-#{$size});
+    }
+
+    .pb-#{$size} {
+        padding-bottom: var(--spacing-#{$size});
+    }
+
+    .pl-#{$size} {
+        padding-left: var(--spacing-#{$size});
+    }
+
+    .pr-#{$size} {
+        padding-right: var(--spacing-#{$size});
+    }
+}
+
+// Backgrounds
+.bg-panel {
+    background: var(--bg-panel);
+}
+
+.bg-surface {
+    background: var(--bg-surface);
+}
+
+.bg-app {
+    background: var(--bg-app);
+}
+
+// Borders
+.border-subtle {
+    border: 1px solid var(--border-subtle);
+}
+
+.border-strong {
+    border: 1px solid var(--border-strong);
+}
+
+.border-opaque {
+    border: 1px solid var(--border-opaque);
+}
+
+// Border Sides
+.border-b {
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.border-t {
+    border-top: 1px solid var(--border-subtle);
+}

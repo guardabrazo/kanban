@@ -1,0 +1,51 @@
+@use '../../styles/tokens' as *;
+
+.text {
+    margin: 0;
+    font-family: var(--font-family);
+    line-height: 1.5;
+
+    // Sizes with related letter-spacing
+    &.xs {
+        font-size: var(--font-size-xs);
+        letter-spacing: var(--letter-spacing-wide); // 1px
+    }
+
+    &.sm {
+        font-size: var(--font-size-sm);
+        letter-spacing: var(--letter-spacing-wide); // 1px
+    }
+
+    &.md {
+        font-size: var(--font-size-md);
+        letter-spacing: var(--letter-spacing-wider); // 2px
+    }
+
+    &.lg {
+        font-size: var(--font-size-lg);
+        letter-spacing: var(--letter-spacing-widest); // 3px
+    }
+
+    &.xl {
+        font-size: var(--font-size-xl);
+        letter-spacing: var(--letter-spacing-mega); // 4px
+    }
+
+    // Variants
+    &.primary {
+        color: var(--text-primary);
+    }
+
+    &.secondary {
+        color: var(--text-secondary);
+    }
+
+    &.muted {
+        color: var(--text-muted);
+        opacity: 0.6; // Distinct from secondary
+    }
+
+    &.accent {
+        color: var(--accent);
+    }
+}
