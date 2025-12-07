@@ -115,10 +115,11 @@ const KanbanApp: React.FC = () => {
                               textAlign: 'left',
                               borderRadius: '0',
                               borderBottom: !isLast ? 'none' : undefined,
-                              borderRight: currentProjectId === project.id ? 'none' : undefined
+                              borderRight: currentProjectId === project.id ? 'none' : undefined,
+                              minWidth: 0
                             }}
                           >
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block', maxWidth: '100%' }}>
                               {project.title}
                             </span>
                           </Button>
